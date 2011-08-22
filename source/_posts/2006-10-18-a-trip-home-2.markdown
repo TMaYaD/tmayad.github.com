@@ -1,0 +1,22 @@
+--- 
+layout: post
+title: A trip home
+wordpress_id: 83
+wordpress_url: http://tmayad.loonyb.in/?p=83
+date: 2006-10-18 03:05:00 +05:30
+---
+<p>This week has been eventful. I came home, got a new lapi, and even gave my sis a surprise birthday party. Not everything has been what I call sweet though.</p>
+
+<p>To start with I had an exam, a viva, a research report and a project proposal to complete before I could leave the college. I gave the exam which turned out to be as nasty as ever. I gave the RI report which isn’t any good. I got the prof to postpone the viva and I’ve put off the project proposal for a later date.</p>
+
+<p>Then came the nice part. I came home in AC 3tier sleeper when I paid only the fare of the sleeper class and that too with doubt so as to whether I would get accommodation et al. Even the car was placed right next to the place I got down the foot bridge. The journey was uneventful and satisfying with Betty and good ol’ Jeeves (of Wodehose) to keep me company. I gave a pretty good cover-up of the issue and managed so as to not let the word get across to my second home, preserving the surprise element.</p>
+
+<p>When I’m home I got the lapi from dad and got the net going good on the home PC too, There are a few temporary set backs and lapses. For one, I try as I might, I can’t get HDD to take the primary master slot on the IDE channel. No amount of configuration seems to help, with the constraint of the limited IDE cable length which can’t reach from one drive to another and mobo in the way I want, I even tried removing the connectors and re-crimping them but to no avail. So I guess installing OS X is nto going to be easy on this setup. Neither was it on the lapi. The lapi keeps screwing itself up in different ways with apparently no difference in the installation. I even tried many clean installs after erasing and zeroing out the partition. The biggest hurdle it seems to me is about preserving the existing windows xp home preinstalled and recovery partitions while being too lazy to backup the whole thing. Other than that, the custom windows I made at college seems to be working just fine, though it needs a little more work.</p>
+
+<p>The rest is fine at home. I had a spot of trouble with my health back there but its allright. Later I got into fight with mom for her negligence about my room. And dad gave me a little lecture over that.</p>
+
+<p>Then there is the surprise B’day party like I’ve mentioned earlier. It demands another post of it’s own. After-all, all the events I listed here are side shows, while this is the whole purpose of the trip.</p>
+
+<p>One more thing I should probably add is about the problems back at college. The RI report was not good enough for a pass grade but professor hinted me at possible extension (to the dead line) so that I won’t have to stay back for another whole sem. But that’s not all, though it’s the worst. The UMA TA as at it again sending an ominous sounding template mail again for my absence in the Monday lab. Let him go to hell, I’ve already told the prof I won’t be in the college and asked for viva postponement and this lunatic actually expects me to be in the lab? Rats. Then there is the prof herself who wanted to see me and another guy urgently, we must have screwed up the midsem or something. I wouldn’t be surprised and I mailed her back reminding her of my absence. She didn’t reply so I don’t know how she took it. Well, what ever it is, it got to wait till I’m back in the college and breathing.</p>
+
+<p>Hmm, what else what else?</p>

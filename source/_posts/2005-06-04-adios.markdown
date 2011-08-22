@@ -1,0 +1,13 @@
+--- 
+layout: post
+title: adios
+wordpress_id: 44
+wordpress_url: http://tmayad.loonyb.in/?p=44
+date: 2005-06-04 16:01:00 +05:30
+---
+<p>Hi every one,<br />
+Finally the day I dreaded was here. I've lost everything just like that. Even the tears deserted me. They didn't find a place when my own heart disavowed me.</p>
+
+<p> This blog has always been a place to hold my feelings and desires. It's been so inactive lately because what I felt was mostly apathy. Now I don't have any feeling left in me except a sharp pain stabbing me in the void that should have been my heart. good bye all</p>
+
+<p>p.s: My technical blogs <a href="http://sub-cache.blogspot.com">sub-cache</a> and <a href="http://timeless-scripts.blogspot.com/">timeless-scripts</a> will (hopefully) still be alive.</p>

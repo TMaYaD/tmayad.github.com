@@ -1,0 +1,8 @@
+--- 
+layout: post
+title: Imagine
+wordpress_id: 10
+wordpress_url: http://tmayad.loonyb.in/?p=10
+date: 2004-08-24 11:00:00 +05:30
+---
+Well one more discovery on net. Go here to <a href="http://ge.liveserver.com/imagine" target="_new"> Draw on</a>. I found this beuty on my friend Sandeep's browser this morning and played with it in my DFS lab(very bad thing to do ofcourse).

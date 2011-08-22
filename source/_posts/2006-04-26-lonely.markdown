@@ -1,0 +1,53 @@
+--- 
+layout: post
+title: Lonely
+wordpress_id: 65
+wordpress_url: http://tmayad.loonyb.in/?p=65
+date: 2006-04-26 15:37:00 +05:30
+---
+<pre>I lay in bed,
+alone in the dark.
+........</pre>
+<p>Oh! so many poems start like this, It's so boring.</p>
+<pre>
+too lazy to turn on the light,
+and yeah, its night</pre>
+<p>Why else would I be in the dark unless you count occasional blackouts! any ways where were we? oh yeah, on the bed. right?</p>
+<pre>My computer goes 'woosh'.
+I get up with a 'swish'.
+I hit the keyboard with a 'tap'.
+My monitor goes on with a 'flick'.</pre>
+<p>'woosh' is incoming IM alert. 'swish' is the sound of bed sheets. I have to 'tap' the ctrl key ofcourse to wake up the Darkmatter and 'flick' is the discharge in capacitors as the monitor resumes from the stdby.</p>
+<pre>Its just a silly fwd,
+about some two month old girl,
+down with some decease,
+placed in suspended animation</pre>
+<p>So riddiculous that some times when I get this fwd, there is no contact details or anything. How can people be so stupid. Whats the whole point of the fwd then? I concluded she is kept in suspended animation because she had been two month old since last three years I was in college.</p>
+<pre>I call airtel,
+that's driving me mental.
+Sitting in the window sill,
+I argue that I already paid the bill.</pre>
+<p>I pay them good 1500 bucks and they forget all about it after giving me a manual reciept. They don't update the account in database and as I result my outgoing was disconnected. And I have to sit in the window sill because thats the only place I would get a fair signal.</p>
+<pre>I go out for dinner,
+no one would come along.
+I jump on my bike and kick on,
+Only to find many more already there.</pre>
+<p>So that's how lonely I feel. Got the <a href="javascript:togglecomments('alonepoint');">point</a>?</p>
+
+<p id='alonepoint' style="display:none;">
+Why doesn't anyone come to my room?<br />
+Why should I be over joyed at the incoming IM?<br />
+Why should I be jumping out of the bed from sleep not wanting to miss it?<br />
+Why should I be infuriated to see the silly forward?<br />
+Why should I be mad at the prospect of disconnection of out going?<br />
+Why didn't I notice until two days later when my incoming too was disconnected later on?<br />
+Why should I be over joyed to hear the drums being played everytime I get an SMS?<br />
+Why should the ringing tone assigned to the one I love be titled 'delusions'?<br />
+Why do I want to call anyone I see to come along for dinner?<br />
+Why did I want to sit apart from the others, who came in earlier to the restaurent?<br />
+Why did I feel more full and contempt when I had a simple breakfast next morning with some one to keep me company?<br />
+Not the questions. They are answers. I'm not alone. I wouldn't feel so lonely in the middle of a dessert.<br />
+As a kid, when we lived in a colony on the outskirts of the city, I used to cry every sunday evening when I had to spend the whole day away from school. Why?<br />
+Even on a one week vacation, knowing my pathetic health, I make sure to visit as many friends and family members all around the state. Why?<br />
+Even if it means that I have to attend the classes with 104 fever, I take atleast three such vacations every sem. Why?<br />
+I'm not alone. I'm only lonely.</p>

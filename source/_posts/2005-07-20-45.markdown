@@ -1,0 +1,7 @@
+--- 
+layout: post
+wordpress_id: 45
+wordpress_url: http://tmayad.loonyb.in/?p=45
+date: 2005-07-20 15:20:00 +05:30
+---
+<a href='http://tmayad.loonyb.in/wp-content/uploads/blogger/blogger/4729/516/1600/New%20me.jpg'><img border='0' class='phostImg' src='http://tmayad.loonyb.in/wp-content/uploads/blogger/img/51/4479/640/Wetlook-1.jpg'></a><br />Wetlook !! Do I have to say more?
