@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>LoonyBin: migrations support for pylons</title>
+  <meta name="author" content="Subhash Chandra">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+
+  <link rel="canonical" href="http://tmayad.github.com/migrations-support-for-pylons.html"/>
+  <link href="/favicon.png" rel="shortcut icon" />
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="http://s3.amazonaws.com/ender-js/jeesh.min.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="LoonyBin" type="application/atom+xml"/>
+  
+
+  
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+  <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body  >
+  <header><hgroup>
+  <h1><a href="/">LoonyBin</a></h1>
+  
+    <h2>Technology won't solve every problem; Crazyness might...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role=navigation><ul role=subscription data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="site-search">
+    <input type="hidden" name="q" value="site:tmayad.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul role=main-navigation>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry">
+  
+  <header>
+    
+      <h1 class="entry-title">Migrations Support for Pylons</h1>
+    
+    
+      <p class="meta">
+
+
+
+
+<time datetime="2009-08-25 18:32:03 +0530" pubdate  updated >Aug 25<span>th</span>, 2009</time>
+
+
+</p>
+    
+  </header>
+
+
+<div class="entry-content">.. -*- mode: rst -*-
+
+
+I have created a paster command for upgrade. Though it works fine for me for now, some bits might need updating to &#8216;proper&#8217; way.
+
+
+**{project}/migrations/upgrade.py**
+
+.. code-block:: python
+
+    from paste.script.command import Command
+    
+    class Upgrade(Command):
+        max_args = 1
+        min_args = 0
+
+        usage = &#8220;[Config]&#8221;
+        summary = &#8220;Upgrades the database using sqlalchemy migrations&#8221;
+        group_name = &#8220;SQLAlchemy Migrations&#8221;
+
+        parser = Command.standard_parser(verbose=True)
+        parser.add_option(&#8220;-V&#8221;, &#8220;&#8211;version&#8221;,
+                          action=&#8217;store&#8217;,
+                          dest=&#8217;version&#8217;,
+                          type=&#8217;int&#8217;,
+                          help=&#8221;will upgrade to given version instead of latest&#8221;)
+
+        def command(self):
+            if len(self.args) == 1:
+                conf_path = self.args[0]
+            else:
+                conf_path = &#8216;development.ini&#8217;
+
+            from paste.deploy import appconfig
+            from migrate.versioning.api import upgrade
+            from os.path import dirname, abspath
+            from pylons import config
+
+            config = appconfig(&#8216;config:&#8217;+abspath(conf_path))
+            url = config[&#8216;sqlalchemy.url&#8217;]
+            #TODO: get app name or the app root path
+            #repository = config[&#8216;here&#8217;] + &#8216;/{project}&#8217; + &#8216;/migrations&#8217;
+            from {project} import migrations
+
+            repository = migrations.__path__[0]
+
+            upgrade(url=url, repository=repository, version=self.options.version)
+
+entrypoint need to be added for the command
+
+**setup.py**
+
+.. code-block:: python
+
+    entry_points=&#8221;&#8220;&#8221;
+    [paste.app_factory]
+    main = pharmaretail.config.middleware:make_app
+
+    [paste.app_install]
+    main = pylons.util:PylonsInstaller
+
+    [paste.paster_command]
+    upgrade = pharmamfg.migrations.upgrade:Upgrade
+    &#8220;&#8221;&#8220;,
+
+
+Also I changed my websetup to create versioned db
+
+**{project}/websetup.py**
+
+.. code-block:: python
+
+    def setup_app(command, conf, vars):
+        &#8220;&#8221;&#8220;Place any commands to setup pharmaretail here&#8221;&#8220;&#8221;
+        load_environment(conf.global_conf, conf.local_conf)
+
+        # Create the tables if they don&#8217;t already exist
+        try:
+            ControlledSchema.create(elixir.engine,&#8217;pharmamfg/migrations/&#8217;)
+        except DatabaseAlreadyControlledError:
+            print &#8220;Database already under version control&#8221;
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Subhash Chandra</span></span>
+
+      
+
+
+
+
+<time datetime="2009-08-25 18:32:03 +0530" pubdate  updated >Aug 25<span>th</span>, 2009</time>
+
+
+
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tmayad.github.com/migrations-support-for-pylons.html" data-via="TMaYaD" data-counturl="http://tmayad.github.com/migrations-support-for-pylons.html" >Tweet</a>
+  
+  
+  <g:plusone size="medium"></g:plusone>
+  
+</div>
+
+    
+  </footer>
+</article>
+
+</div>
+
+<aside role=sidebar>
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/pylons-couchdb.html">Pylons + CouchDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/nginx-passenger-on-gentoo.html">nginx passenger on gentoo</a>
+      </li>
+    
+      <li class="post">
+        <a href="/bread-crumbs.html">Bread Crumbs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/the-cell-phone-i-want.html">The Cell phone I want</a>
+      </li>
+    
+      <li class="post">
+        <a href="/migrations-support-for-pylons.html">migrations support for pylons</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("TMaYaD", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/TMaYaD" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @TMaYaD</a>
+  
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer><p>
+  Copyright &copy; 2011 - Subhash Chandra -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+</body>
+</html>

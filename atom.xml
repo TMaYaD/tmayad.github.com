@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>LoonyBin</title>
+  <link href="http://tmayad.github.com/atom.xml" rel="self"/>
+  <link href="http://tmayad.github.com/"/>
+  <updated>2011-08-23T09:25:04+05:30</updated>
+  <id>http://tmayad.github.com/</id>
+  <author>
+    <name>Subhash Chandra</name>
+    
+  </author>
+
+  
+  <entry>
+    <title>Pylons + CouchDB</title>
+    <link href="http://tmayad.github.com/pylons-couchdb.html"/>
+    <updated>2009-11-25T23:51:20+05:30</updated>
+    <id>http://tmayad.github.com/pylons-couchdb</id>
+    <content type="html">.. -*- mode: rst -*-
+
+I got sick of Schemas, migrations and versions of SQL. So I decided I want an alternative. There is couchDB for one. I'm going to give it a try. Watch this space for updates on my progress. Meanwhile, leave your comments if you know of any alternatives.
+
+PS: There is also node but I am yet to verify if it fits the purpose.
+</content>
+  </entry>
+  
+  <entry>
+    <title>nginx passenger on gentoo</title>
+    <link href="http://tmayad.github.com/nginx-passenger-on-gentoo.html"/>
+    <updated>2009-10-14T12:50:42+05:30</updated>
+    <id>http://tmayad.github.com/nginx-passenger-on-gentoo</id>
+    <content type="html">.. -*- mode: rst -*-
+
+A few days back my slice started giving me warnings about heavy swap usage and my websites started crawling dead slow despite very low traffic. top_ gave me the answer I needed. Apache_ is eating away a lot of memory without doing anything. I've been hearing a good deal about nginx_ and wanted to give it a try.
+
+Recently I've been working on a rails project and needed to deploy it. Looking at rails guides pointed me to passenger_ for nginx. How ever the nginx ebuild for portage doesn't support passenger. Some one has raised a `bug#266446`_ and created a patch for adding *passenger* use flag to nginx. There is one small catch though, it raises a sandbox violation error. Besides it needs passenger to be installed using ruby gem. A quick scan at the end of the build log showed the error. nginx is trying to prepare passenger through some rake task and causing the error.
+
+I decided to write an ebuild for passenger and prepare it for nginx. A quick google search and looking at a couple of other ebuilds threw up a standard ebuild template for gem installations. A simple rake task later I got my passenger-2.2.5.ebuild_ and a `patch for nginx ebuild`_ to go with it.
+
+They are up on Gentoo bugzilla, grab them and place them in your overlay.
+
+.. _top: http://en.wikipedia.org/wiki/Top_(Unix)
+.. _apache: http://www.apache.org/ 
+.. _nginx: http://nginx.net/
+.. _passenger: http://www.modrails.com/
+.. _passenger-2.2.5.ebuild: http://bugs.gentoo.org/attachment.cgi?id=205845
+.. _`patch for nginx ebuild`: http://bugs.gentoo.org/attachment.cgi?id=205847&amp;action=diff
+.. _`bug#266446`: http://bugs.gentoo.org/show_bug.cgi?id=266446
+</content>
+  </entry>
+  
+  <entry>
+    <title>Bread Crumbs</title>
+    <link href="http://tmayad.github.com/bread-crumbs.html"/>
+    <updated>2009-09-30T11:37:43+05:30</updated>
+    <id>http://tmayad.github.com/bread-crumbs</id>
+    <content type="html">.. -*- mode: rst -*-
+
+I want bread crumbs for my site. I want DRY code. Bread crumbs are invariably derived from the site navigation tree. So I want one to be derived from the other or both be derived from the same source. After a little help from [mattmatt_] I came up with this one:
+
+.. _mattmatt: http://github.com/mattmatt/crumble
+
+- I want to define my site structure some where.
+
+.. code-block:: python
+
+    site = {
+        home:{name:'Home', controller:'home', action:'index'},
+        services:{name:'Services', controller:'home', action:'services',
+            pages:{
+                oneservice:{name:'Service One', controller:'home', action:'serviceone'},
+                anotherservice:{name:'Service Two', controller:'home', action:'anotherservice'},
+            },
+        products:{name:'Products', restController:products},
+        help:{name:'Help', url:'/help.html'},
+    }
+                  
+- All the nav menus will be generated as unordered lists. I should be able to call it as
+
+.. code-block:: python
+
+    nav(site)                                         #create top level site nav menu
+    nav(site['services'])                        # create nav menu for the services section of the site
+    nav('services')                                #complicated: will have to search for the services in the site tree, at any depth
+    #nav(url, name, action, controller, etc)    #use named parameters to construct url and look for the page with the url in the site tree
+
+- And bread crumbs will be generated again as unordered lists, using 
+
+.. code-block:: python
+
+    crumbs()                                         #generate bread crumbs trail using current target url
+    #all other calls of nav except for crumbs(site) which would be dumb anyway.
+</content>
+  </entry>
+  
+  <entry>
+    <title>The Cell phone I want</title>
+    <link href="http://tmayad.github.com/the-cell-phone-i-want.html"/>
+    <updated>2009-09-08T21:38:37+05:30</updated>
+    <id>http://tmayad.github.com/the-cell-phone-i-want</id>
+    <content type="html">.. -*- mode: rst -*-
+
+* &lt;20K INR price-point
+* Slide out back-lit 'dvorak' keypad
+* capacitive multi-touch enabled largish(3.5&quot; atleast) screen
+* Linux based os: Android/maemo
+* good responsive UI
+* &gt;10hr talktime
+
+Other now-a-days standard features:
+
+* A2DP/AVRCP
+* GPRS/EDGE/3G
+* AGPS, digital compass, dual accelerometer
+* proximity and ambient light sensors
+</content>
+  </entry>
+  
+  <entry>
+    <title>migrations support for pylons</title>
+    <link href="http://tmayad.github.com/migrations-support-for-pylons.html"/>
+    <updated>2009-08-25T18:32:03+05:30</updated>
+    <id>http://tmayad.github.com/migrations-support-for-pylons</id>
+    <content type="html">.. -*- mode: rst -*-
+
+
+I have created a paster command for upgrade. Though it works fine for me for now, some bits might need updating to 'proper' way.
+
+
+**{project}/migrations/upgrade.py**
+
+.. code-block:: python
+
+    from paste.script.command import Command
+    
+    class Upgrade(Command):
+        max_args = 1
+        min_args = 0
+
+        usage = &quot;[Config]&quot;
+        summary = &quot;Upgrades the database using sqlalchemy migrations&quot;
+        group_name = &quot;SQLAlchemy Migrations&quot;
+
+        parser = Command.standard_parser(verbose=True)
+        parser.add_option(&quot;-V&quot;, &quot;--version&quot;,
+                          action='store',
+                          dest='version',
+                          type='int',
+                          help=&quot;will upgrade to given version instead of latest&quot;)
+
+        def command(self):
+            if len(self.args) == 1:
+                conf_path = self.args[0]
+            else:
+                conf_path = 'development.ini'
+
+            from paste.deploy import appconfig
+            from migrate.versioning.api import upgrade
+            from os.path import dirname, abspath
+            from pylons import config
+
+            config = appconfig('config:'+abspath(conf_path))
+            url = config['sqlalchemy.url']
+            #TODO: get app name or the app root path
+            #repository = config['here'] + '/{project}' + '/migrations'
+            from {project} import migrations
+
+            repository = migrations.__path__[0]
+
+            upgrade(url=url, repository=repository, version=self.options.version)
+
+entrypoint need to be added for the command
+
+**setup.py**
+
+.. code-block:: python
+
+    entry_points=&quot;&quot;&quot;
+    [paste.app_factory]
+    main = pharmaretail.config.middleware:make_app
+
+    [paste.app_install]
+    main = pylons.util:PylonsInstaller
+
+    [paste.paster_command]
+    upgrade = pharmamfg.migrations.upgrade:Upgrade
+    &quot;&quot;&quot;,
+
+
+Also I changed my websetup to create versioned db
+
+**{project}/websetup.py**
+
+.. code-block:: python
+
+    def setup_app(command, conf, vars):
+        &quot;&quot;&quot;Place any commands to setup pharmaretail here&quot;&quot;&quot;
+        load_environment(conf.global_conf, conf.local_conf)
+
+        # Create the tables if they don't already exist
+        try:
+            ControlledSchema.create(elixir.engine,'pharmamfg/migrations/')
+        except DatabaseAlreadyControlledError:
+            print &quot;Database already under version control&quot;
+</content>
+  </entry>
+  
+  <entry>
+    <title>GMAT preparation</title>
+    <link href="http://tmayad.github.com/gmat-preparation.html"/>
+    <updated>2009-08-04T00:40:07+05:30</updated>
+    <id>http://tmayad.github.com/gmat-preparation</id>
+    <content type="html">.. -*- mode: rst -*-
+
+This is something I am being asked by quite a few people about. No wonder they do, after all, I did get a good score. Not to be modest or anything, but I'm hardly the kind of the guy you should be asking.
+
+Lesson 1
+---------
+
+*&quot;I  should start preparing.&quot;*
+
+That's what I kept saying to my self for about two and a half months after I left my previous job and decided to pursue GMAT as alternate career plans. One night I had the wake up call and took a stock of my career so far and unable to find any thing fine till then, **decided** I have to do it some how. Not any score, but 760-99 %ile
+
+Well there you go. That's the first important part. To decide that you *have to do it*. Then get out of the lazy-chair and start doing something. It doesn't matter which books you read, what test you take, how much time you study per day. It has to start, and with a conviction.
+
+Lesson 2
+---------
+
+*&quot;I got job to attend and chores to do. Don't find sufficient time to study.&quot;*
+
+To be frank even after I started preparing,  I used to fall asleep before I completed a couple of pages. For a long time I was reading may be 2-3 pages a day and no more. That and I used to do one *problem solving session* each day.
+
+A little about my **practice sessions**. I used to time them for **75 minutes** each. Length of one GMAT section. Short enough to keep reminding me *&quot;one hour, and this session would be over, 45 min and seesion will be over, so on&quot;* so that i won't fall asleep in between. And I used to do **50 problems** in a session. A little over the number of questions in either of GMAT sections. Remember: You can have a couple of minutes left at the end of the exam but not even a single question.
+
+More over, when I give the test, as I am aiming for a high score, after the first 8-10 questions, I would be in the top bin. If I am to work on those questions, I shouldn't take as much time on average questions.
+
+The bottom line is it apparently worked for me. You might adopt it with a few modifications or you might come up with your own different strategy. I should refer back to our first lesson here, and I can't stress this enough. The **conviction** is  what should be driving you.
+
+More Questions
+---------------
+
+*&quot;I have more questions.&quot;*
+
+Well.. abstractly, probably that's all the *&quot;gyan&quot;* I could give you. :) If you have any specific concerns or questions, I could tell you; I'm not going anywhere. Leave your questions in the comments section.
+
+There is also another post coming up with summary of what I've learned from the GMAT books. Stay tuned...  
+</content>
+  </entry>
+  
+  <entry>
+    <title>Things to learn</title>
+    <link href="http://tmayad.github.com/things-to-learn.html"/>
+    <updated>2009-05-22T00:32:14+05:30</updated>
+    <id>http://tmayad.github.com/things-to-learn</id>
+    <content type="html">&lt;p&gt; One of my friends recently made a post about the &lt;a href=&quot;http://meinmywords.blogspot.com/2009/05/guess-its-high-time-now.html&quot;&gt;things he need  to learn&lt;/a&gt; to get a job. Here is the list edited a little and checked for what I have accomplished so far:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; Basic DNS Concepts&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; Strong Networking and Internet Fundamentals&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; Basic know-how about protocols like HTTP, FTP, SCP, ssh, etc&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true checked&gt; Linux server administration skills&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true checked&gt; Good Linux CLI skills&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; &lt;del&gt;Windows 2000/2003 server administration skills&lt;/del&gt;&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; &lt;del&gt;IIS administration and basic ASP skills&lt;/del&gt;&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true checked&gt; Database Servers Administration (PostgreSQL/&lt;strong&gt;MySQL&lt;/strong&gt;/MS-SQL) and General SQL usage skills&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; RAID, File Systems (ext{234}/&lt;del&gt;NTFS&lt;/del&gt;)&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; Firewalls (Iptables)&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true checked&gt; Apache, PHP, &lt;strong&gt;CGI&lt;/strong&gt;, &lt;em&gt;WSGI&lt;/em&gt;&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true&gt; Basic knowledge of Postfix/Sendmail/qmail MTA's, and good knowledge of how E-Mail works&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true checked&gt; Good knowledge about editors (&lt;strong&gt;vi&lt;/strong&gt;, &lt;del&gt;pico, joe, nano, emac&lt;/del&gt;) in Linux&lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=checkbox disabled=true checked&gt; Regular expressions basics and one liners in sed, awk, &lt;del&gt;Perl&lt;/del&gt; etc&lt;/input&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Goof on HIMYM Season 2</title>
+    <link href="http://tmayad.github.com/goof-on-himym-season-2.html"/>
+    <updated>2009-05-07T00:10:48+05:30</updated>
+    <id>http://tmayad.github.com/goof-on-himym-season-2</id>
+    <content type="html">.. -*- mode: rst -*-
+
+I have submitted this goof to IMDB.
+
+  Title: &quot;How I Met Your Mother&quot; (2005) {Bachelor Party (#2.19)}
+
+  Type: Plot holes
+
+  Goof: In the scene where Barney goes to meet lily who is still in SF, around 20min mark, he buys a ticket for her and says &quot;I can't keep stealing chicks from Marshall&quot;. In the 2nd episode of the season where he does the referred stealing, he does so 'after' Marshall &quot;checks out robin's ass&quot; and that's when lily is back in NY.
+</content>
+  </entry>
+  
+  <entry>
+    <title>:(</title>
+    <link href="http://tmayad.github.com/336.html"/>
+    <updated>2009-05-06T00:30:47+05:30</updated>
+    <id>http://tmayad.github.com/336</id>
+    <content type="html">&lt;p&gt;I'm sad right now. I'm going to watch how I met your mother. Is it going to cheer me up?&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Break up story</title>
+    <link href="http://tmayad.github.com/break-up-story.html"/>
+    <updated>2009-03-25T01:35:26+05:30</updated>
+    <id>http://tmayad.github.com/break-up-story</id>
+    <content type="html">.. -*- mode: rst -*-
+
+
+`&quot;In Love !&quot;`_
+
+    It all comes to a head when he is out gulping patiala pegs of Jack Daniels one after the other and in an inexplicable moment of madness calls Shriya up and says “ If you don’t like being with me, let it be . I want to end it here. It’s all over” and hangs up. Shriya, red in anger, for she loved him , more than anything else , rings him back and yells “ If you felt like that, let me tell you one thing, I loved you more than anything else but now I realise you didn’t deserve one bit of it. Thank you for letting me know. Get lost!”
+
+.. _`&quot;In Love !&quot;`: http://psrhere.blogspot.com/2009/03/in-love.html
+
+Happens to everyone. When a lover actually blames the other, they are looking for denial. When you say &quot;if you don't love me, get lost&quot;; you are expecting to be beaten black and blue and asserted how much she actually loves you. Girls express it with a few subtle differences but its essentially same.
+
+How ever what you receive instead is a broken heart at those harsh words. While your emphasis was on 'if you don't love' part, she cringes over 'get lost' part. Hurt and angry, story ends there.
+
+Only if you actually love and understand the other person,
+Only when you can stop thinking of what it sounded like to 'you', and how much it hurt 'you',
+when, instead, you think of what 'he' is expecting, What 'he' is thinking,
+Only when you can actually share feelings and live like one soul, one life;
+
+Only then will you actually be happy understanding how much he loved you, and still loves you. How much it hurt 'him' to be asking that. You dont have to bear your sorrow silently; you simply won't feel sad. Instead of being angry and breaking up, you could smile and take him into your arms. Assert him, like he wanted, how much you love him in so many kisses. He would then throw a pitiful look on his face, smile a little and all would be well.
+</content>
+  </entry>
+  
+  <entry>
+    <title>Who is accountable</title>
+    <link href="http://tmayad.github.com/who-is-accountable.html"/>
+    <updated>2009-03-19T19:03:25+05:30</updated>
+    <id>http://tmayad.github.com/who-is-accountable</id>
+    <content type="html">.. -*- mode: rst -*-
+
+`What Nonsense!`_
+Posted on March 13, 2009 by Confused
+
+.. _`What Nonsense!`: http://retributions.wordpress.com/2009/03/13/what-nonsense/
+
+  It is outrageous that people would invoke their personal sense of morality when dealing with essentially criminal issues. The girl may have agreed to striptease for her bf and  allowed him to film it but it certainly does not follow that she had given him the right to publicly release those videos. The girl’s act was stupid and naive; her bf’s act was despicable and criminal. There is a difference.
+
+  What if a person released their spouse’s video shot while they were engaged in certain private acts? Would it be remarkably different from this case? Would it be then be justified to rant against increasing ”obsecenity” in the society?
+
+  Womyn are stupid.
+
+My take? They are all at fault. Why does one have to be good while another is bad. They all are very bad people. There is a saying,
+
+ *Manchollu cheddollu antu vere undaru.*
+ *Avasaram koddhi manchullu kuda cheddulluga marocchu;*
+ *Avakasam leka cheddollu kuda manchalluga migilipovacchu.*
+
+ No one is particularly good or bad.
+ Need can turn good men into bad;
+ Bad people might remain good due to lack of opportunity.
+
+The girl, alleged victim, should have thought of the consequences before stripping(consequence of not marrying) or letting her boyfriend record it (possibility of getting out). The guy should have looked at his own worthiness when the girl refused or what a useless chump he looks if he resorted to sending the messages. Hacking? hacking my foot. It's as simple as she gave him her password as part of romantic trust. She asked for it. The guy again is a useless chump ofcourse.
+
+And what's the criminal bull shit. The law and courts to me are another bunch of big bullies making rules about what they think is right. So pardon me if I don't see why you particularly point out the guy as criminal. Now we come to the guys parents. Why does any body presume anything about them. If they support him they are wrong. If they punish him, they are right. Its the same if the guy is a 5 yr old who stole a pencil from his playmate. As a parent they are supposed to set him right. Atleast try to set him right. And the girl's parents. Oh! Stop trying to be 'supportive'. She doesn't deserve it. She isn't a 4 year old being bullied into giving up her ice-cream. Either she should have not done it if she had problem with it or she doesn't care in which case you shouldn't be worrying.
+
+The media... Ah yes! That's an interesting thing. I never understand what it is that it wants. In all honesty I like gossip and glamor magazines better, or even play boy. Atleast they are not pretentious of what they are. I don't think I need to expand any more on that. Accept it guys, you are trying to 'sell' stories. Not educate or inspire anybody. And you guys reading it, take anything you read with a healthy dose of salt. 
+
+PS: Telugu daily war Sakshi Vs Eenadu is entirely different kind of 'selling'
+</content>
+  </entry>
+  
+  <entry>
+    <title>"By the people" from Idea</title>
+    <link href="http://tmayad.github.com/by-the-people-from-idea.html"/>
+    <updated>2009-03-11T16:18:25+05:30</updated>
+    <id>http://tmayad.github.com/by-the-people-from-idea</id>
+    <content type="html">.. -*- mode: rst -*-
+
+It was a great ad and and the idea has a lot of potential, unrealised.
+
+It would be great to to take feedback from people. For anyone, not only manthri-jees who are by and large useless anyways. So how would you go about it? It should be simple. A user seeking feedback will sms the question to the server number. It will be broad cast to everybody who will reply to it and the user will get a feedback in a summarised %age and/or number of votes.
+
+Now, let's worry about the implimentation. Everybody is not going to reply immediately. So we must set up a time out and/or time slice. In a time out, the user sets a time limit for the question and he will get a summary of results recieved till that time. In a time slice the poll will keep running and the results mailed after every time slice. The poll can be removed when we don't recieve a preset minimum votes in a time slice.
+
+There can be more than one simultaneous polls. We can deal with it in two ways.if the simultaneous polls are going to be a lot in number, we could assign a id to each poll and use it to track the opinions. The downside is that the user has to include the random id in the reply which is going to be a huge deterrant. Alternately, If the number of simultaneous polls is fairly low, we register a bunch of lines and assign a unique free line to each line. We can reuse the line when the polls is removed like we discussed in previous point.
+
+If we were to register a 100 lines, it would cost us, by the cost of each SIM in retail, Rs.10,000/- which is not really a huge amount and considering we are taking a bunch for SMS only, it should cost way less. Would 100 lines be enough? Let me put it this way. Is it okay to have more than a 100 polls? The answer is 'No'. Imagine someone getting 100 SMS questions each day. They would hate their phone to beep every 15 mins. If you have more than 100 SMS, you have a bigger problem than tracking individual polls.
+
+Ofcourse, this argument is based on the fact that mean time out of a poll is one day. For polls that take longer than that, this isn't an ideal platform, IMHO. They are better looking else where. Or build a similar dedicated platform. There might be exceptions, and that's why we said 'mean'. Considerable number of the polls are going to be similar to the &quot;Gandhi or Commando&quot; ones which typically run for less than 15 minutes. 
+
+So that brings us to the next question. What if we DO have more than 100 polls in a day? What if we really hit it off and become popular? For that matter most people won't tolerate even 100. May be they'll run out of patiance with an hourly poll. Or some people might even hate us for single SMS. We shouldn't be 'SPAM'ming them in the first place. 
+
+Well, you are right. We shouldn't be spamming. So we won't spam. It's going to be purely opt-in service.
+
+But that's crazy. Who'll want to opt in? Ofcourse people might be interested in asking question. But unfortunately the same can't be said about answering other people's dilemmas, unless they have something in it. 
+
+That's why we are going to link both of them. You can subscribe to the service as a whole. Not exclusively for asking. 
+
+But, that won't make them answer the sms, should we let them ask only if they answered some N number of polls?
+
+That would be way over board. Besides, what purpose does it serve anyway? Other than contaminating the poll results, that is. Don't judge people so harshly, there are many people who would like to have a say as long as it doesn't intrude upon it. 
+
+So, how do you make sure it won't be intrusive? 100 SMS is a lot. Come to think of it. You still haven't answered that question. How will we manage those numbers?
+
+I'm coming to it. There are again, two approaches. One is to tag the questions with categories and let people subscribe to catogories. The other is to randomly select a subset of available people and remove any one who had already hit the soft/hard limit (preset or set by the user). Soft limit is the number of polls recieved by the user and hard limit is the number of answered polls answered by the user. What more? You can use both to make it more attractive. :)
+
+Earlier we mentioned in the passing about the cost of setting up. I'm sure the cost of the lines itself isn't everything. There is going to be a lot of cost involved in setting it up and then there are the SMS charges for so many polls. 
+
+That's not the only thing. The cost of answering the poll or even asking a question is going to be a huge deterrent to the user. You are supposed to make it a toll-free line. The operator isn't going to be happy about it and will be asking you to pay up instead. One way you can get returns on the investment is to include contextual advertisements in your SMS. Preferably, go local. (nudge..nudge..: Anybody from google local or just dial out there?) Other is to use your userbase to run Commerciar survays, paid by the survayer. Remember we mentioned it while talking about duration of a poll. One caution though. Keep commersial to free poll ratio per user low.
+</content>
+  </entry>
+  
+  <entry>
+    <title>Welcome back to the 160s</title>
+    <link href="http://tmayad.github.com/welcome-back-to-the-160s.html"/>
+    <updated>2009-02-28T14:52:31+05:30</updated>
+    <id>http://tmayad.github.com/welcome-back-to-the-160s</id>
+    <content type="html">.. -*- mode: rst -*-
+
+Once upon a time, there lived a boy who flew seven seas to be with his girl.
+It doesn't matter anymore.
+He has always been right.
+It's love that gave him wings.
+</content>
+  </entry>
+  
+  <entry>
+    <title>Paranoia -aka- One last chance</title>
+    <link href="http://tmayad.github.com/paranoia-aka-one-last-chance.html"/>
+    <updated>2008-12-01T02:11:53+05:30</updated>
+    <id>http://tmayad.github.com/paranoia-aka-one-last-chance</id>
+    <content type="html">&lt;p&gt;Some thing scary is in the air.. like this is the end!
+Death? No, That's not it.
+Death is not frightening. More over, I know I'm not going to die tomorrow.
+This is the result of my years of carelessness, laziness and procrastination.
+My own doom that I brought upon, not only on me but also on those who believed in me.
+This feels like the end of me.. end of Subhash.&lt;/p&gt;
+
+&lt;p&gt;Oh! What have I done?
+What am I doing? What am I going to do?
+I'm not sure. But I'm not going to...
+Let go of my ideals or day dreams, like one might call them.
+Step back and settle for mediocre.
+Let the past weigh me down.
+What I'm going to do is learn from that past.&lt;/p&gt;
+
+&lt;p&gt;This is the one last chance I got.
+I know life isn't going to be easy on me like it had been before.
+I know things aren't going to be the same.
+But I will survive, and live another day to tell the tale.&lt;/p&gt;
+
+&lt;p&gt;Let this be my action plan.
+I won't get complacent.
+I won't go easy on myself.
+I will never compromise.&lt;/p&gt;
+
+&lt;p&gt;There is a glimmer of hope in the air.
+The fear still blinds me to everything
+and still I can see the light at the end of the tunnel.
+It isn't getting any closer. Huh?&lt;/p&gt;
+
+&lt;p&gt;Oh! I get it.
+I need to go towards it.&lt;/p&gt;
+
+&lt;p&gt;PS: I'll give my best at business. And I won't neglect my MBA aspiration.
+PPS: I guess this is the end of the career options series! Errr, This 'HAS' to be the end of it.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Career options part 2</title>
+    <link href="http://tmayad.github.com/career-options-part-2.html"/>
+    <updated>2008-11-07T13:54:02+05:30</updated>
+    <id>http://tmayad.github.com/career-options-part-2</id>
+    <content type="html">.. -*- mode: rst -*-
+
+--------------
+Career Options
+--------------
+
++---------------+-----------------------+-----------------------+
+| Company	| Short Term		| Long term		|
++===============+=======+=======+=======+=======+===============+
+|		| Money	| Time	| fun	| MBA	| Startup	|
++---------------+-------+-------+-------+-------+---------------+
+| Darwin	| \*	| \*	| \?	| \*	| \+ [#]_	|
++---------------+-------+-------+-------+-------+---------------+
+| Pagalguy	| \?	| \-	| \*	| \*	| \*		|
++---------------+-------+-------+-------+-------+---------------+
+| IdhaSoft	| \+	| \?	| \?	| \-	| \-		|
++---------------+-------+-------+-------+-------+---------------+
+
+.. [#] Management
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>WebTesting Framework for wizard like apps - Part 2</title>
+    <link href="http://tmayad.github.com/webtesting-framework-for-wizard-like-apps-part-2.html"/>
+    <updated>2008-09-29T23:25:50+05:30</updated>
+    <id>http://tmayad.github.com/webtesting-framework-for-wizard-like-apps-part-2</id>
+    <content type="html">.. -*- mode: rst -*-
+
+Time for the example I promised. Lets take a train booking web site for example. It is a typical example a web based wizard. Lets Consider IRCTC The flow goes something like this:
+
+Home Page
+---------
+* To Station
+* From Station
+* Type of Journey (One Way, Return)
+* Date of Departure
+* Date of Arrival*
+* Class
+
+Time Table Page
+---------------
+* Outward (and Return) Train: Can be selected using
+  - Name
+  - Number
+  - Time and Date of departure
+  - Route
+* Quota
+* Date of Journey (We may want to change the earlier provided one depending on availability
+
+Possible next pages:
+* Schedule
+* Availability
+* Fare
+* 
+
+
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Career Options</title>
+    <link href="http://tmayad.github.com/career-options.html"/>
+    <updated>2008-09-24T15:51:51+05:30</updated>
+    <id>http://tmayad.github.com/career-options</id>
+    <content type="html">.. -*- mode: rst -*-
+
+* Job
+
+  - Cisco
+  - infy
+  - google
+
+* Consultancy
+
+  - Stan Chart
+  - ~~Pagal Guy~~
+
+* Free lance
+
+  - Sunny
+  - Face Book
+  - linked in
+
+* Dad's Business
+
+  - Marketing in Bangalore
+
+* Open Source
+* MS/MBA
+</content>
+  </entry>
+  
+  <entry>
+    <title>WebTesting Framework for wizard like apps - Part 1</title>
+    <link href="http://tmayad.github.com/webtesting-framework-for-wizard-like-apps-part-1.html"/>
+    <updated>2008-09-13T12:03:25+05:30</updated>
+    <id>http://tmayad.github.com/webtesting-framework-for-wizard-like-apps-part-1</id>
+    <content type="html">.. -*- mode: rst -*-
+
+This isn't an original idea. But I have my own two cents to add and here goes.
+
+The project I'm working on has a website with a wizard like interface where you enter your details as required on each page and click continue to go through to the last page of the wizard.
+
+Here are some ideas for you if you want to test such a site. You can use selenium_ or any other web testing frame work to do the actual driving. What I'm proposing is a layer above that specific for the web site. Confused already? stay with me, I'll try to make it all clear in a bit.
+
+First of all we need an answer class. It contains all the answers you need for your flow through the wizard. I prefer to keep it flat, but some people like to keep it a collection of objects according to logical section/page.
+
+It is hard to continue like this, isn't it? Let's take an example. :) That will make it much easier.
+
+.. _selenium: http://selenium-rc.openqa.org/
+</content>
+  </entry>
+  
+  <entry>
+    <title>If sys admins rule the planet</title>
+    <link href="http://tmayad.github.com/if-sys-admins-rule-the-planet.html"/>
+    <updated>2008-07-29T17:26:24+05:30</updated>
+    <id>http://tmayad.github.com/if-sys-admins-rule-the-planet</id>
+    <content type="html">&lt;p&gt;Welcome to rant central. The center of today's rant is the IS team. Don't get me wrong here. Most of the IS team is friendly and quite cool to begin with. But at the end of the day I would rather do it my self than have them help. It doesn't have anything to do with the technical prowess. They are quite good. But tolerance wise they score pretty low. If they can't stand my wierd ass ideas and think pitching in to the rescue when I get into a jam is eating their time, I absolutely fail to see any 'support' in them. Sorry, I don't mean they aren't. It might just be me failing to see it.&lt;/p&gt;
+
+&lt;p&gt;&quot;Dude, what happened to all that you-are-the-admin-of-your-system talk?&quot;&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title>Immersion Day 3</title>
+    <link href="http://tmayad.github.com/immersion-day-3.html"/>
+    <updated>2008-07-09T21:56:00+05:30</updated>
+    <id>http://tmayad.github.com/immersion-day-3</id>
+    <content type="html">&lt;p&gt;&lt;embed type=&quot;application/x-shockwave-flash&quot; src=&quot;http://picasaweb.google.com/s/c/bin/slideshow.swf&quot; width=&quot;800&quot; height=&quot;533&quot; flashvars=&quot;host=picasaweb.google.com&amp;captions=1&amp;noautoplay=1&amp;RGB=0x000000&amp;feed=http%3A%2F%2Fpicasaweb.google.com%2Fdata%2Ffeed%2Fapi%2Fuser%2FMr.Subhash%2Falbumid%2F5221120717135515041%3Fkind%3Dphoto%26alt%3Drss&quot; pluginspage=&quot;http://www.macromedia.com/go/getflashplayer&quot;&gt;&lt;/embed&gt;&lt;/p&gt;
+</content>
+  </entry>
+  
+</feed>
