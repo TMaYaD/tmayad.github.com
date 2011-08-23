@@ -1,8 +1,0 @@
---- 
-layout: post
-title: broke!
-wordpress_id: 108
-wordpress_url: http://tmayad.loonyb.in/?p=108
-date: 2007-12-01 10:26:00 +05:30
----
-<span style="font-size:200%;">Will Work For Food</span><span style="font-size:50%;">, and flight tickets.</span>

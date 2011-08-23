@@ -1,8 +1,0 @@
---- 
-layout: post
-title: gmail
-wordpress_id: 15
-wordpress_url: http://tmayad.loonyb.in/?p=15
-date: 2004-08-29 18:52:00 +05:30
----
-<p align="justify">Today I got an Invite for gmail. It looks nice but I really missed the ability to insert multiple contacts into the addressbook. You can only choose to send mail to a single contact. There is no option to select multiple contacts and compose a mail to all at once.</p>

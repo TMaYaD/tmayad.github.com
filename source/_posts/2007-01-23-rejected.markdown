@@ -1,8 +1,0 @@
---- 
-layout: post
-title: Rejected
-wordpress_id: 91
-wordpress_url: http://tmayad.loonyb.in/?p=91
-date: 2007-01-23 22:10:00 +05:30
----
-<p>note to self: <em>Learn to bake better cookies.</em></p>

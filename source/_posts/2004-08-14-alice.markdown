@@ -1,8 +1,0 @@
---- 
-layout: post
-title: ALICE
-wordpress_id: 7
-wordpress_url: http://tmayad.loonyb.in/?p=7
-date: 2004-08-14 14:59:00 +05:30
----
-Just "stumbled upon" this site. This is really amusing.<a href="http://www.alicebot.org/" target="_new">Meet <code>miss.ALICE</code></a>
