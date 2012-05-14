@@ -3,22 +3,9 @@ title: LoonyBin
 layout: default
 ---
 
-<div class="blog-index">
-{% for post in paginator.posts %}
-  <article>
-    {% include article.html %}
+{% for post in site.posts limit: 2 %}
+  <article class='span6'>
+    <h1>{{ post.title }}</h1>
+    {{ post.content }}
   </article>
 {% endfor %}
-<nav role="pagination">
-  <div>
-    {% if paginator.next_page %}
-      <a class="prev" href="{{paginator.next_page}}">&larr; Older</a>
-    {% endif %}
-    <a href="/blog/archives">Blog Archives</a>
-    {% if paginator.previous_page %}
-    <a class="next" href="{{paginator.previous_page}}">Newer &rarr;</a>
-    {% endif %}
-  </div>
-</nav>
-{% endif %}
-</div>
