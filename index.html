@@ -4,8 +4,13 @@ layout: default
 ---
 
 {% for post in site.posts limit: 2 %}
-  <article class='span6'>
+  <article class="span6 well hero-unit">
     <h1>{{ post.title }}</h1>
-    {{ post.content }}
+    <p>{{ post.content }}</p>
+    <p>
+      <a class="btn btn-primary btn-large" href="{{ post.url }}">
+        Read
+      </a>
+    </p>
   </article>
 {% endfor %}
