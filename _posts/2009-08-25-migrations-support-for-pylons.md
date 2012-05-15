@@ -11,7 +11,7 @@ for now, some bits might need updating to 'proper' way.
 
 **{project}/migrations/upgrade.py**
 
-~~~~ {.sourceCode .python}
+{% highlight python %}
 from paste.script.command import Command
 
 class Upgrade(Command):
@@ -49,13 +49,13 @@ class Upgrade(Command):
         repository = migrations.__path__[0]
 
         upgrade(url=url, repository=repository, version=self.options.version)
-~~~~
+{% endhighlight %}
 
 entrypoint need to be added for the command
 
 **setup.py**
 
-~~~~ {.sourceCode .python}
+{% highlight python %}
 entry_points="""
 [paste.app_factory]
 main = pharmaretail.config.middleware:make_app
@@ -66,13 +66,13 @@ main = pylons.util:PylonsInstaller
 [paste.paster_command]
 upgrade = pharmamfg.migrations.upgrade:Upgrade
 """,
-~~~~
+{% endhighlight %}
 
 Also I changed my websetup to create versioned db
 
 **{project}/websetup.py**
 
-~~~~ {.sourceCode .python}
+{% highlight python %}
 def setup_app(command, conf, vars):
     """Place any commands to setup pharmaretail here"""
     load_environment(conf.global_conf, conf.local_conf)
@@ -82,4 +82,4 @@ def setup_app(command, conf, vars):
         ControlledSchema.create(elixir.engine,'pharmamfg/migrations/')
     except DatabaseAlreadyControlledError:
         print "Database already under version control"
-~~~~
+{% endhighlight %}

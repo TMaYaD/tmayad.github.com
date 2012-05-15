@@ -14,7 +14,7 @@ up with this one:
 
 -   I want to define my site structure some where.
 
-~~~~ {.sourceCode .python}
+{% highlight python %}
 site = {
     home:{name:'Home', controller:'home', action:'index'},
     services:{name:'Services', controller:'home', action:'services',
@@ -25,21 +25,21 @@ site = {
     products:{name:'Products', restController:products},
     help:{name:'Help', url:'/help.html'},
 }
-~~~~
+{% endhighlight %}
 
 -   All the nav menus will be generated as unordered lists. I should be
     able to call it as
 
-~~~~ {.sourceCode .python}
+{% highlight python %}
 nav(site)                                         #create top level site nav menu
 nav(site['services'])                        # create nav menu for the services section of the site
 nav('services')                                #complicated: will have to search for the services in the site tree, at any depth
 #nav(url, name, action, controller, etc)    #use named parameters to construct url and look for the page with the url in the site tree
-~~~~
+{% endhighlight %}
 
 -   And bread crumbs will be generated again as unordered lists, using
 
-~~~~ {.sourceCode .python}
+{% highlight python %}
 crumbs()                                         #generate bread crumbs trail using current target url
 #all other calls of nav except for crumbs(site) which would be dumb anyway.
-~~~~
+{% endhighlight %}
